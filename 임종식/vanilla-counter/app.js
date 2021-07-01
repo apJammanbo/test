@@ -1,6 +1,6 @@
 // 제일 잘함
 // 한번더 마킹
-
+//12313
 let redoStack = []; // redo 용 스택
 let undoStack = []; // undo 용 큐
 let globalValue = 0;
