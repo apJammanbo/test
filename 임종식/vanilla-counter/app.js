@@ -1,3 +1,5 @@
+// 제일 잘함
+
 let redoStack = []; // redo 용 스택
 let undoStack = []; // undo 용 큐
 let globalValue = 0;
@@ -34,27 +36,28 @@ function onload() {
 // -> redo 버튼 : 결과갑 1 -> undo 버튼 활성화
 
 function handleClick(event) {
-  const { target: { id } } = event;
-  let { value } = document.getElementById('inputbox');
+  const {
+    target: { id },
+  } = event;
+  let { value } = document.getElementById("inputbox");
 
   switch (id) {
-    case 'addButton':
+    case "addButton":
       addValue(value);
       break;
-    case 'subButton':
+    case "subButton":
       subValue(value);
       break;
-    case 'undoButton':
+    case "undoButton":
       undo();
       break;
-    case 'redoButton':
+    case "redoButton":
       redo();
       break;
     default:
-      alert('장애 발생');
+      alert("장애 발생");
       break;
   }
-
 }
 
 /**
@@ -62,7 +65,7 @@ function handleClick(event) {
  * @description 계산된 값을 valuebox에 적용시킨다. inputBox 초기화 한다.
  */
 const applyValueOnBox = (value, isInitInputbox = true) => {
-  let valueBox = document.getElementById('valuebox');
+  let valueBox = document.getElementById("valuebox");
 
   valueBox.innerText = value;
   globalValue = value;
@@ -72,31 +75,31 @@ const applyValueOnBox = (value, isInitInputbox = true) => {
     initialInputValue();
   }
 
-  console.log('redoStack: ', redoStack);
-  console.log('undoStack: ', undoStack);
-  console.log('globalValue: ', globalValue);
-}
+  console.log("redoStack: ", redoStack);
+  console.log("undoStack: ", undoStack);
+  console.log("globalValue: ", globalValue);
+};
 
 /**
- * @title 입력 창 초기화 
+ * @title 입력 창 초기화
  * @description inputbox에 값을 초기화한다.
  */
 const initialInputValue = () => {
-  let inputbox = document.getElementById('inputbox');
+  let inputbox = document.getElementById("inputbox");
 
   inputbox.value = null;
-}
+};
 
 /**
- * @title 뒤로가기 핸들 
+ * @title 뒤로가기 핸들
  * @description 결과를 이전 값으로 돌린다. 기존의 값은 redoStack에 추가
  */
 const undo = () => {
   let value = popUndoStack();
 
-  pushRedoStack(globalValue);// redoStack 추가
+  pushRedoStack(globalValue); // redoStack 추가
   applyValueOnBox(value, false);
-}
+};
 
 /**
  * @title 앞으로 가기 핸들
@@ -107,7 +110,7 @@ const redo = () => {
 
   pushUndoStack(globalValue);
   applyValueOnBox(value, false);
-}
+};
 
 /**
  * @title 더하기 핸들
@@ -122,14 +125,14 @@ const addValue = (value) => {
   if (checkNullNaN(value)) {
     initialInputValue();
     return;
-  };
+  }
 
   const newValue = parseToNumber(value) + globalValue;
 
   pushUndoStack(globalValue);
   applyValueOnBox(newValue);
   initRedoStack();
-}
+};
 
 /**
  * @title 빼기 핸들
@@ -144,27 +147,25 @@ const subValue = (value) => {
   if (checkNullNaN(value)) {
     initialInputValue();
     return;
-  };
+  }
 
   const newValue = globalValue - parseToNumber(value);
 
   pushUndoStack(globalValue);
   applyValueOnBox(newValue);
   initRedoStack();
-}
-
+};
 
 /**
  * @title inputbox 값 null 체크 및 isNaN 체크
  */
 const checkNullNaN = (value) => {
-  if (value === null || value === undefined || value === '') {
+  if (value === null || value === undefined || value === "") {
     return true;
   }
 
   return isNaN(parseFloat(value)) ? true : false;
-}
-
+};
 
 /* stack handlers */
 
@@ -172,18 +173,17 @@ const checkNullNaN = (value) => {
  * @title undo 스택 삽입
  */
 const pushUndoStack = (value) => {
-  let undobutton = document.getElementById('undoButton');
+  let undobutton = document.getElementById("undoButton");
   undoStack.push(value);
 
   undobutton.disabled = false;
-}
-
+};
 
 /**
  * @title undo 스택 추출
  */
 const popUndoStack = () => {
-  let undobutton = document.getElementById('undoButton');
+  let undobutton = document.getElementById("undoButton");
   let value = undoStack.pop();
 
   if (undoStack.length === 0) {
@@ -191,23 +191,23 @@ const popUndoStack = () => {
   }
 
   return value;
-}
+};
 
 /**
  * @title redo 스택 삽입
  */
 const pushRedoStack = (value) => {
-  let redobutton = document.getElementById('redoButton');
+  let redobutton = document.getElementById("redoButton");
   redoStack.push(value);
 
   redobutton.disabled = false;
-}
+};
 
 /**
  * @title redo 스택 추출
  */
 const popRedoStack = () => {
-  let redobutton = document.getElementById('redoButton');
+  let redobutton = document.getElementById("redoButton");
   let value = redoStack.pop();
 
   if (redoStack.length === 0) {
@@ -215,31 +215,30 @@ const popRedoStack = () => {
   }
 
   return value;
-}
+};
 
 /**
  * @title redo 스택 초기화
  */
 const initRedoStack = () => {
-  let redobutton = document.getElementById('redoButton');
+  let redobutton = document.getElementById("redoButton");
 
   redoStack = [];
   redobutton.disabled = true;
-}
+};
 
 /**
  * @title number 파싱
  */
 const parseToNumber = (str) => {
   const type = typeof str;
-  if (type === 'number') {
+  if (type === "number") {
     return str;
-  } else if (type === 'string') {
+  } else if (type === "string") {
     let result = parseFloat(str);
     return result;
+  } else {
+    console.log("type: ", type);
+    alert("타입 장애");
   }
-  else {
-    console.log('type: ', type);
-    alert('타입 장애')
-  }
-}
+};
